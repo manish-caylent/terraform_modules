@@ -1,0 +1,29 @@
+version: 2.1
+jobs: 
+  plan:
+    docker: 
+      - image: alpine/terragrunt
+    steps:
+      - run:
+          name: terragrunt plan
+          command: |
+            git clone https://github.com/manish-caylent/Infrastructure_code.git
+            if [ "${CIRCLE_BRANCH}" == "staging" ];
+            then 
+              cd deployments/us-west-2/staging
+              terragrunt run-all plan --terragrunt-non-interactive
+            fi
+            if [ "${CIRCLE_BRANCH}" == "prod" ];
+            then 
+              cd deployments/us-west-2/prod 
+              terragrunt run-all plan --terragrunt-non-interactive
+            fi
+      - persist_to_workspace: 
+          root: .
+          paths:
+            - .
+workflows:
+  version: 2
+  plan_release:
+    jobs:
+      - plan
