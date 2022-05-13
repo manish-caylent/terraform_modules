@@ -1,4 +1,4 @@
-on:
+/*on:
   push:
     branches:
       - main
@@ -10,5 +10,5 @@ jobs:
       - uses: google-github-actions/release-please-action@v3
         with:
           release-type: terraform-module
-          package-name: infra
+          package-name: infra */
 
